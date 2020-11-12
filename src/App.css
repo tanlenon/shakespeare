@@ -1,38 +1,132 @@
-.App {
-  text-align: center;
+.shake-conatiner {
+  background-color: #FAFbFC;
+  padding: 3em;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
 .App-link {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.row-conatiner {
+  background-color: #FFF;
+}
+
+.row-container-header {
+  border-radius: 0.5em 0.5em 0 0;
+  border: 2px solid #E7E7E7;
+  background-color: #FFF;
+  padding: 1em;
+  color: #33CCCC;
+  font-weight: bold;
+}
+
+.row-content {
+  padding: 1em;
+  background-color: white;
+  border-left: 2px solid #E7E7E7;
+  border-bottom: 2px solid #E7E7E7;
+  border-right: 2px solid #E7E7E7;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.rating {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0.4em;
+  min-width: 5em;
+}
+
+.rating-text {
+  margin-right: 0.5em;
+}
+
+.row-container-end {
+  border-radius: 0 0 0.5em 0.5em;
+  border: 2px solid #E7E7E7;
+  border-top: 0;
+  margin-bottom: 2em;
+  display: flex;
+  background-color: #FFF;
+  height: 1em;
+}
+
+.star-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.star {
+  height: 1em;
+  width: 1em;
+}
+
+.star-1 {
+  width: 0.25em;
+}
+
+.star-2 {
+  width: 0.5em;
+}
+
+.star-3 {
+  width: 0.75em;
+}
+
+.state-box-container {
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+}
+
+.state-box {
+  border-radius: 0.5em;
+  border: 2px solid #E7E7E7;
+  padding: 2em;
+  background-color: #FFF;
+  font-weight: bold;
+  display: flex;
+  font-size: 1.3em;
+  flex-direction: column;
+  text-align: center;
+  width: 33%;
+  margin: 0 1em 1em 1em;
+}
+
+.large-header {
+  font-size: 0.8em;
+  margin: 0;
+}
+
+.text-spacer {
+  margin: 0.5em 0;
+}
+
+
+
+/* Pagination */
+
+.top-pagination-container {
+  display: flex;
+  justify-content: center;
+}
+
+.top-pagination {
+  margin: auto;
+}
+
+.page-link {
+  border: 2px solid #E7E7E7 !important;
+  color: #33CCCC !important;
+  font-weight: bold !important;
+}
+
+.page-item.active .page-link{
+ background-color: #33CCCC !important;
+ color: #FFF !important;
+}
+
+.p-arrow {
+  margin: 0;
 }
