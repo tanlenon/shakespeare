@@ -25,7 +25,7 @@ const testData2 = [
     "rating": 4.1,
     "publish_date": "2016-09-03T23:25:47.642545Z",
     "id": "9784620626604",
-    "body": "How bitter a thing it is to look into happiness through another man's eyes!",
+    "body": "How bitter a thing it is to look into happiness through another man's eyes! How bitter a thing it is to look into happiness through another man's eyes! How bitter a thing it is to look into happiness through another man's eyes! How bitter a thing it is to look into happiness through another man's eyes! How bitter a thing it is to look into happiness through another man's eyes! How bitter a thing it is to look into happiness through another man's eyes!",
   }
 ];
 const testData3 = null;
@@ -56,14 +56,17 @@ const days = [
 ];
 
 function convertToHTML(reviews) {
+  // converts array of reviews to rows show on UI
   return reviews.slice(0, 20).map(rev => (
     <Row key={rev.id} review={rev}/>
   ));
 }
 
 class Stars extends Component {
+  // set of stars shown near ratings
 
   lastStar(amt) {
+    // decides which partial star to use
     if (amt >= 0.1 && amt < .35) {
       return <img className="star star-1" key={this.props.id + '-last'} src={star_1} alt="star"/>
     } else if (amt >= 0.35 && amt < .6) {
@@ -82,10 +85,11 @@ class Stars extends Component {
     let percent = stars % 1;
     let whole = stars - percent;
 
+    // creates star image combos to show on the frontend
     for (var i = 0; i < whole; i++) {
       star_images.push(<img className="star" key={this.props.id + '-' + i} src={star} alt="star"/>)
     }
-
+    
     if (percent >= 0.1) {
       star_images.push(this.lastStar(percent));
     }
@@ -99,6 +103,7 @@ class Stars extends Component {
 }
 
 class SortButton extends Component {
+  // button that is used to sort review info
   render() {
     return (
       <button className="sort-button" onClick={this.props.func}>{this.props.label}</button>
@@ -107,48 +112,69 @@ class SortButton extends Component {
 }
 
 class Row extends Component {
+  // row that shows info about a review
   constructor(props) {
     super(props);
     this.state = {
     };
   }
+
+  handleClick(id) {
+    // hide or show the body content of a review
+    let elem = document.getElementById('acc-' + id);
+    if (elem.style.display === 'none') {
+      elem.style.display = 'block';
+    } else {
+      elem.style.display = 'none';
+    }
+  }
+
   render() {
     let rev = this.props.review;
     var d = rev.publish_date ? new Date(rev.publish_date) : '-';
     return (
-      <div className="row-content">
-        <div className="review-box">{rev.rating ? <div className="rating"><span className="rating-text">{rev.rating}</span> <Stars stars={rev.rating} key={rev.id}/></div> : '-'}</div>
-        <div>{rev.author ? rev.author : '-'}</div>
-        <div className="review-date">{d !== '-' ? (days[d.getDay()] + ' - ' + months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear()) : d}</div>
+      <div>
+        <div className="row-content" onClick={this.handleClick.bind(this, rev.id)}>
+          <div className="review-box">{rev.rating ? <div className="rating"><span className="rating-text">{rev.rating}</span> <Stars stars={rev.rating} key={rev.id}/></div> : '-'}</div>
+          <div>{rev.author ? rev.author : '-'}</div>
+          <div className="review-date">{d !== '-' ? (days[d.getDay()] + ' - ' + months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear()) : d}</div>
+        </div>
+        {rev.body ? 
+        <div className="row-content gray-text" id={'acc-' + + rev.id} style={{display: 'none'}}>
+          {rev.body}
+        </div> : null}
       </div>
     )
   }
 }
 
 class Container extends Component {
+  // container for all rows and content
   constructor(props) {
     super(props);
     this.state = {
       error: null,
       isLoaded: false,
-      reviews: [],
-      thisPageReviews: [],
-      pageCount: 0,
-      offset: 0,
-      perPage: 20,
-      currentPage: 0,
-      average: '-',
-      highest: '-',
-      lowest: '-',
+      reviews: [], // review data returned
+      thisPageReviews: [], //review data shown on page
+      pageCount: 0, // # of pages needed to show all info
+      offset: 0, // offset of reviews, used to show certain reviews on certain pages
+      perPage: 20, // # of reviews per page
+      currentPage: 0, // page you are on
+      average: '-', // average rating of reviews
+      highest: '-', // highest rating in reviews
+      lowest: '-', // lowest rating in reviews
     };
   }
 
   componentDidMount() {
+    // happens after UI is loaded
     fetch("https://shakespeare.podium.com/api/reviews", { headers: { 'x-api-key': 'H3TM28wjL8R4#HTnqk?c' }})
       .then(res => res.json())
       .then(
         (result) => {
 
+          // Tests for bad data
           // *********************************** TEST 1 ***********************************
           // result = testData1
 
@@ -161,6 +187,7 @@ class Container extends Component {
           result = result ? result : [];
           let count = result.length ? result.length : 0;
           let cleanResult = result.filter(a => a.rating);
+          // sets initial values in state
           this.setState({
             isLoaded: true,
             reviews: result,
@@ -172,9 +199,7 @@ class Container extends Component {
           var rows = convertToHTML(result);
           this.setState({ thisPageReviews: rows });
         },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
+        //  if an error occurs in the call
         (error) => {
           this.setState({
             isLoaded: true,
@@ -185,6 +210,7 @@ class Container extends Component {
   }
 
   sortReviews(what, arr) {
+    // sorts review info based on sort button pushed
     if (what === 'rating lh') {
       arr = arr.sort((a, b) => (a.rating > b.rating) ? 1 : -1)
     } else if (what === 'rating hl') {
@@ -203,6 +229,7 @@ class Container extends Component {
   }
 
   handlePageClick = (data) => {
+    // goes to next or previous page
     const selectedPage = data.selected;
 
     const offset = selectedPage * this.state.perPage;
@@ -212,6 +239,7 @@ class Container extends Component {
   }
 
   setElementsForCurrentPage() {
+    // refreshed data for current page
     var rows = convertToHTML(this.state.reviews.slice(this.state.offset, this.state.offset + this.state.perPage)); 
 
     this.setState({
@@ -222,6 +250,7 @@ class Container extends Component {
   render() {
       let paginationElement;
       if (this.state.pageCount > 1) {
+        // creates pagination menu
         paginationElement = (
           <ReactPaginate
             previousLabel={<p className="p-arrow">{"<"}</p>}
@@ -269,10 +298,10 @@ class Container extends Component {
             Shakepeare's Reviews ({(this.state.reviews.length ? ((this.state.offset + 1) + ' - ') : '') + (this.state.offset + this.state.thisPageReviews.length)})
             <div className="sort-buttons">
               <p className="button-label-text">Sort by: </p>
-              <SortButton label={'rating high - low'} func={this.sortReviews.bind(this, 'rating hl', this.state.reviews)}/>
-              <SortButton label={'rating low - high'} func={this.sortReviews.bind(this, 'rating lh', this.state.reviews)}/>
-              <SortButton label={'date new - old'} func={this.sortReviews.bind(this, 'date hl', this.state.reviews)}/>
-              <SortButton label={'date old - new'} func={this.sortReviews.bind(this, 'date lh', this.state.reviews)}/>
+              <SortButton label={'rating, high - low'} func={this.sortReviews.bind(this, 'rating hl', this.state.reviews)}/>
+              <SortButton label={'rating, low - high'} func={this.sortReviews.bind(this, 'rating lh', this.state.reviews)}/>
+              <SortButton label={'date, new - old'} func={this.sortReviews.bind(this, 'date hl', this.state.reviews)}/>
+              <SortButton label={'date, old - new'} func={this.sortReviews.bind(this, 'date lh', this.state.reviews)}/>
             </div>
           </div>
           <div className="row-conatiner"> 

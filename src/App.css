@@ -3,7 +3,7 @@
   padding: 3em;
 }
 
-.row-conatiner {
+.row-container {
   background-color: #FFF;
 }
 
@@ -61,6 +61,12 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  cursor: pointer;
+  color: black;
+}
+
+.row-content:hover {
+  background-color: #F7F7F7;
 }
 
 .rating {
@@ -175,4 +181,8 @@
 
 .disabled a p {
   color: lightgray !important;
+}
+
+.gray-text {
+  color: gray;
 }
