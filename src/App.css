@@ -2,9 +2,6 @@
   background-color: #FAFbFC;
   padding: 3em;
 }
-.App-link {
-  color: #61dafb;
-}
 
 .row-conatiner {
   background-color: #FFF;
@@ -17,6 +14,42 @@
   padding: 1em;
   color: #33CCCC;
   font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sort-buttons {
+  display: flex;
+  flex-direction: row;
+  margin: 0 0.5em;
+  align-items: center;
+}
+
+.button-label-text {
+  margin: 0 0.4em 0 0;
+}
+
+.sort-button {
+  margin: 0 0.5em;
+  color: #33CCCC;
+  background-color: #FFF;
+  border: #33CCCC 2px solid;
+  border-radius: 1em;
+  padding: 0.2em 0.8em;
+  outline: none;
+}
+
+.sort-button:hover {
+  color: #FFF;
+  background-color: #33CCCC;
+  border: #33CCCC 2px solid;
+  cursor: pointer;
+}
+
+.sort-button:focus {
+  outline: none;
 }
 
 .row-content {
@@ -34,7 +67,11 @@
   display: flex;
   flex-direction: row;
   margin-bottom: 0.4em;
-  min-width: 5em;
+}
+
+.review-box {
+  min-width: 7em;
+  text-align: center;
 }
 
 .rating-text {
@@ -72,6 +109,11 @@
 
 .star-3 {
   width: 0.75em;
+}
+
+.review-date {
+  min-width: 10em; 
+  text-align: center;
 }
 
 .state-box-container {
@@ -129,4 +171,8 @@
 
 .p-arrow {
   margin: 0;
+}
+
+.disabled a p {
+  color: lightgray !important;
 }
